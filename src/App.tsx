@@ -1,7 +1,6 @@
 import React from 'react';
+import ProductsList from './features/ProductsList';
 
-function App() {
-  return <div />;
+export default function App() {
+  return <ProductsList />;
 }
-
-export default App;
