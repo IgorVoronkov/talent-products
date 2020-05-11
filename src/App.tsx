@@ -1,6 +1,13 @@
 import React from 'react';
-import ProductsList from './features/ProductsList';
+import AddProductForm from './features/products/AddProductForm';
+import ProductsList from './features/products/ProductsList';
 
 export default function App() {
-  return <ProductsList />;
+  return (
+    <div>
+      <AddProductForm />
+      <hr />
+      <ProductsList />;
+    </div>
+  );
 }
