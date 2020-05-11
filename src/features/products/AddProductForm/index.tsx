@@ -11,6 +11,7 @@ export default function AddProductForm() {
     axios
       .post('https://talent-products.firebaseio.com/products.json', product)
       .then((res: AxiosResponse<any>) => {
+        // eslint-disable-next-line no-console
         console.log(res.data);
       });
     e.preventDefault();
