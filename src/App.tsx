@@ -7,7 +7,7 @@ export default function App() {
     <div>
       <AddProductForm />
       <hr />
-      <ProductsList />;
+      <ProductsList />
     </div>
   );
 }
