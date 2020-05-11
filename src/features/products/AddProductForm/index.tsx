@@ -1,8 +1,20 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import axios, { AxiosResponse } from 'axios';
 
 export default function AddProductForm() {
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('');
+
+  const product = { title, status };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    axios
+      .post('https://talent-products.firebaseio.com/products.json', product)
+      .then((res: AxiosResponse<any>) => {
+        console.log(res.data);
+      });
+    e.preventDefault();
+  };
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -13,7 +25,7 @@ export default function AddProductForm() {
   };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         value={title}
