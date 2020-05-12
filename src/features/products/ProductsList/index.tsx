@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
+import { Product } from '../product.interface';
 
 export default function ProductsList() {
-  const [products, setProducts] = useState<Array<any>>([]);
+  const [products, setProducts] = useState<Record<string, Product>>({});
 
   useEffect(() => {
     axios
-      .get<object>('https://talent-products.firebaseio.com/products.json')
-      .then((res: AxiosResponse<object>) => {
+      .get<Record<string, Product>>(
+        'https://talent-products.firebaseio.com/products.json'
+      )
+      .then((res) => {
         const { data } = res;
-        setProducts(Object.values(data));
+        setProducts(data);
       });
   }, []);
 
@@ -17,9 +20,12 @@ export default function ProductsList() {
     <div>
       <h2>Products List</h2>
       <ul>
-        {products.map((product: any) => {
-          const { title, status } = product;
-          return <li>{`${title}: ${status}`}</li>;
+        {Object.entries(products).map((product) => {
+          return (
+            <li
+              key={product[0]}
+            >{`${product[1].title}: ${product[1].status}`}</li>
+          );
         })}
       </ul>
     </div>
