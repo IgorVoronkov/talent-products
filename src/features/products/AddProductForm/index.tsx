@@ -1,47 +1,60 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+/* eslint-disable no-console */
+/* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
 import axios, { AxiosResponse } from 'axios';
+import { Button, Form, Input } from 'antd';
+
+const layout = {
+  labelCol: { span: 2 },
+  wrapperCol: { span: 8 },
+};
+
+const tailLayout = {
+  wrapperCol: { offset: 2, span: 8 },
+};
 
 export default function AddProductForm() {
-  const [title, setTitle] = useState('');
-  const [status, setStatus] = useState('');
-
-  const product = { title, status };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onFinish = (values: any) => {
     axios
-      .post('https://talent-products.firebaseio.com/products.json', product)
+      .post('https://talent-products.firebaseio.com/products.json', values)
       .then((res: AxiosResponse<any>) => {
-        // eslint-disable-next-line no-console
         console.log(res.data);
       });
-    e.preventDefault();
+    console.log(values);
   };
 
-  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setStatus(e.target.value);
+  const onFinishFailed = (errorInfo: any) => {
+    console.error('Failed:', errorInfo);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={title}
-        onChange={handleTitleChange}
-        placeholder="Title"
-      />
-      <br />
-      <input
-        type="text"
-        value={status}
-        onChange={handleStatusChange}
-        placeholder="Status"
-      />
-      <br />
-      <button type="submit">Add</button>
-    </form>
+    <Form {...layout} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+      <Form.Item
+        label="Title"
+        name="title"
+        rules={[{ required: true, message: 'required' }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Status"
+        name="status"
+        rules={[{ required: true, message: 'required' }]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Description"
+        name="description"
+        rules={[{ required: true, message: 'required' }]}
+      >
+        <Input.TextArea />
+      </Form.Item>
+      <Form.Item {...tailLayout}>
+        <Button type="primary" htmlType="submit">
+          Add new product
+        </Button>
+      </Form.Item>
+    </Form>
   );
 }
