@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import ProductsListItem from './ProductsListItem';
 import { Product } from '../product.interface';
 
 export default function ProductsList() {
@@ -22,9 +23,9 @@ export default function ProductsList() {
       <ul>
         {Object.entries(products).map((product) => {
           return (
-            <li
-              key={product[0]}
-            >{`${product[1].title}: ${product[1].status}`}</li>
+            <li key={product[0]}>
+              <ProductsListItem product={product[1]} />
+            </li>
           );
         })}
       </ul>
